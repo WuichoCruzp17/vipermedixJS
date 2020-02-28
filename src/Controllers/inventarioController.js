@@ -1,5 +1,5 @@
 const inventarioController = {};
-const product = require('../Controllers/productController');
+const product = require('../Models/Product');
 const supplierController = require('../Controllers/supplierController');
 const pharmacyBranchController = require('../Controllers/pharmacyBranchController');
 const productLocationController = require('../Controllers/productLocationController');
@@ -16,4 +16,8 @@ inventarioController.index = async(req, res) =>{
 
 }
 
+inventarioController.getProduct = async(req,res)=>{
+    const products = await product.findAll();
+    res.status(200).json({status:200, products});
+}
 module.exports = inventarioController;

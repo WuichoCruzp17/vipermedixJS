@@ -425,3 +425,21 @@ const message ={
         })
     }
 }
+
+const utilXHTTP={
+    url:'/vipermedix/inventario',
+    status:{
+        OK:200
+    },
+    get:async function(action){
+        return new Promise((resolve, reject) => {
+            $.get(utilXHTTP.url+action,function(data,status){
+                if(data.status==utilXHTTP.status.OK){
+                    resolve({result:true,data});
+                }else{
+                    resolve({result:false,data:[]});
+                }
+            })
+        });
+    }
+}

@@ -20,8 +20,11 @@ modsJS.ini = function(){
 };
 
 modsJS.validete = function(event){
-    console.log(util.validateForm(event.target.value, inventario));
+    const result = util.validateForm(event.target.value, inventario);
+    if(result.validate){
+        this.getProduct('L2',0,result.entity[inventario.frm_sucu],result[frm_codiB]);
+    }
 }
-modsJS.getProduct = async function(){
+modsJS.getProduct = async function(p_tipo,p_product_id,p_sucu_id,p_barcode){
     
 }
