@@ -1,0 +1,17 @@
+.mtop-10{
+    margin-top: 10px;
+}
+.mtop-20{
+    margin-top: 20px;
+}
+.mbot-10{
+    margin-bottom: 10px;
+}
+.mbot-20{
+    margin-bottom: 20px;
+}
+
+.bod-r{
+    
+    border-right: 1px solid;
+}
