@@ -2,6 +2,9 @@
     <link rel="stylesheet" href="../css/groupbox.css">
     <script src="../js/util.js"></script>
     <script src="../js/sweetalert2@9.js"></script>
+   {{!--  <script src="../js/vue-2.js"></script> --}}
+    <script src="../js/vuejs-datepicker-translations.js"></script>
+    <script src="../js/vuejs-datepicker.min.js"></script>
     <script src="../vipermedix/js/properties.js"></script>
     <script src="../vipermedix/js/inventario.js"></script>
 </head>
@@ -34,7 +37,7 @@
         </fieldset>
     </div>
 </div>
-<form name="{{inv.frm_name}}">
+<form name="{{inv.frm_name}}" id="{{inv.frm_name}}">
     <div class="row">
         <div class="col-sm-12">
             <fieldset class="well">
@@ -48,13 +51,13 @@
                                         {{inv.key_susA}}:
                                     </div>
                                     <div class="col-sm-7">
-                                        <textarea class="form-control" name="{inv.frm_susA}" disabled></textarea>
+                                        <textarea class="form-control" name="{{inv.frm_susA}}" v-model={{inv.frm_susA}} disabled></textarea>
                                     </div>
                                     <div class="col-sm-4 text-uppercase" style="margin-Top:10px">
                                         {{inv.key_desc}}:
                                     </div>
                                     <div class="col-sm-7" style="margin-Top:10px">
-                                        <textarea class="form-control" name="{{inv.frm_desc}}" disabled></textarea>
+                                        <textarea class="form-control" name="{{inv.frm_desc}}" v-model={{inv.frm_desc}} disabled></textarea>
                                     </div>
                                     <div class="col-sm-12 text-uppercase" style="margin-Top:10px">
                                         <div class="row">
@@ -63,7 +66,7 @@
                                             </div>
                                             <div class="col-sm-5">
                                                 <input type="text" class="form-control isCurrency"
-                                                    name="{{inv.frm_preC}}" />
+                                                    name="{{inv.frm_preC}}" v-model={{inv.frm_preC}} />
                                             </div>
                                         </div>
                                     </div>
@@ -73,7 +76,7 @@
                                                 {{inv.key_preP}}:
                                             </div>
                                             <div class="col-sm-5" style="margin-Top:10px">
-                                                <input type="text" name="{{inv.frm_preP}}"
+                                                <input type="text" name="{{inv.frm_preP}}" v-model={{inv.frm_preP}}
                                                     class="form-control isCurrency">
                                             </div>
                                         </div>
@@ -82,7 +85,7 @@
                                         {{inv.key_ubi}}
                                     </div>
                                     <div class="col-sm-7" style="margin-Top:10px">
-                                        <select class="form-control" name="{{inv.frm_ubi}}">
+                                        <select class="form-control" name="{{inv.frm_ubi}}" v-model={{inv.frm_ubi}}>
                                             <option value="0">--- Seleccione ---</option>
                                             {{#each productLocations}}
                                                 <option value="{{id}}">{{location}}</option>
@@ -93,7 +96,7 @@
                                         {{inv.key_pro}}
                                     </div>
                                     <div class="col-sm-7" style="margin-Top:10px">
-                                        <select class="form-control" name="{{inv.frm_pro}}">
+                                        <select class="form-control" name="{{inv.frm_pro}}" v-model={{inv.frm_pro}}>
                                             <option value="0">--- Seleccione ---</option>
                                             {{#each suppliers}}
                                                 <option value="{{id}}">{{supplierName}}</option>
@@ -105,7 +108,7 @@
                                             <div class="col-xl-3 offset-xl-4 col-sm-3 offset-sm-4 col-md-3 offset-md-4">
                                                 <div class="form-check form-check-inline">
                                                     <input type="checkbox" class="form-check-input"
-                                                        name="{{inv.frm_cad}}"></input>
+                                                        name="{{inv.frm_cad}}" v-model={{inv.frm_cad}}></input>
                                                     <label
                                                         className="form-check-label text-uppercase">{{inv.key_cad}}</label>
                                                 </div>
@@ -137,7 +140,7 @@
                                                         {{inv.key_stckA}}
                                                     </div>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control" name="{{inv.frm_stckA}}"
+                                                        <input type="text" class="form-control" name="{{inv.frm_stckA}}" v-model={{inv.frm_stckA}}
                                                             disabled></input>
                                                     </div>
                                                 </div>
@@ -149,7 +152,7 @@
                                                     </div>
                                                     <div class="col-sm-12">
                                                         <input type="text" class="form-control"
-                                                            name="{{inv.frm_cantAd}}"></input>
+                                                            name="{{inv.frm_cantAd}}" v-model={{inv.frm_cantAd}}></input>
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,7 +169,7 @@
 </form>
 <div cass="col-sm-12">
     <fieldset class="well">
-        <legend class="well-legend text-uppercase">Buscar Por:</legend>
+        <legend class="well-legend text-uppercase">{{inv.key_agIn}}:</legend>
         <div class="row">
             <div className="col-sm-12 text-center text-uppercase">{{inv.key_titM}}</div>
             <div class="col-sm-12 text-center text-uppercase">{{inv.key_subtM}}</div>
@@ -174,25 +177,24 @@
             <div class="col-sm-2 text-center text-uppercase">{{inv.key_cantM}}</div>
             <div class="col-sm-3 text-center text-uppercase">{{inv.key_cadM}}</div>
             <div class="col-sm-12">
-                <form name="{{inv.frm_CadN}}">
+                <form name="{{inv.frm_CadN}}" id={{inv.frm_CadN}}>
                     <div class="row">
-                        <div class="d-none"><input type="text" class="form-control" name="{{inv.frm_cadp}}"></input>
+                        <div class="d-none"><input type="text" class="form-control" name="{{inv.frm_cadp}}" v-model={{inv.frm_cadp}}></input>
                         </div>
-                        <div class="col-sm-3"><input type="text" class="form-control" name="{{inv.frm_lote}}"
-                                minLength="{{inv.mnl_lote}}" maxLength="{{inv.mxl_lote}}"></input></div>
-                        <div class="col-sm-2"><input type="text" class="form-control" name="{{inv.frm_canl}}"
-                                required></input></div>
+                        <div class="col-sm-3"><input type="text" class="form-control isNumber" name="{{inv.frm_lote}}"  v-model={{inv.frm_lote}} minLength="{{inv.mnl_lote}}" maxLength="{{inv.mxl_lote}}" pattern="[0-9]" data-original-title="{{inv.msg_lote}}" data-original-name="key_numLoM"  required></input></div>
+                        <div class="col-sm-2"><input type="text" class="form-control isNumber" name="{{inv.frm_cant}}" v-model="{{inv.frm_cant}}"  pattern="[0-9]" data-original-title="{{inv.msg_canl}}" data-original-name="key_cantM" required></input></div>
                         <div class="col-sm-3 text-center">
-                            <input type="datetime" class="form-control isDateC">
+                            <vuejs-datepicker v-model="{{inv.frm_cadl}}"  :bootstrap-styling="true" name="{{inv.frm_cadl}}" :inline="false" :language="es"></vuejs-datepicker>
                         </div>
-                        <div class="col-lg-1 col-sm-2 col-md-2"><button
-                                class="btn btn-primary">{{global.key_acep}}</Button></div>
+                        <div class="col-lg-1 col-sm-2 col-md-2"><button type="button"
+                                class="btn btn-primary" value="{{inv.frm_CadN}}" v-on:click="validarIventario">{{global.key_acep}}</Button></div>
                         <div class="col-xl-1 col-sm-2 col-md-2 col-2"><button class="btn btn-secondary">Limpiar</Button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-xl-12">
+            <div class="col-xl-12" id="demo">
+                <demo-grid :heroes="gridData" ></demo-grid>
                 <table class="table table-striped" style="margin-Top:10px">
                     <thead>
                         <tr>
@@ -202,7 +204,8 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table-lotes">
+                        
                     </tbody>
                 </table>
             </div>
@@ -219,3 +222,24 @@
             style="width:100%">{{global.key_limp}}</button>
     </div>
 </div>
+
+<script type="text/x-template" id="grid-template">
+     <table class="table table-striped" style="margin-Top:10px">
+                    <thead>
+                        <tr>
+                            <th class="text-center">"Numero de lote"</th>
+                            <th class="text-center">"Cantidadad"</th>
+                            <th class="text-center">Caducidad</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="entry in heroes">
+                            <td>\{{entry["num_lote"]}}</td>
+                            <td>\{{entry["cant_lote"]}}</td>
+                            <td>\{{entry["cad_lote"]}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+</script>

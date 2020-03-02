@@ -8,6 +8,7 @@ var util = {
       el: object.el,
       data:object.model,
       methods: util.isTheProperty(object, 'methods') ? object.methods :null,
+      components:util.isTheProperty(object, 'components') ? object.components :null
     })
   },
 
@@ -71,12 +72,22 @@ var util = {
     var $elements = jQuery("#"+form +" .form-control");
         const entity = {};
         const inputsErr = [];
+        var result = null;
         for (var i = 0; i < $elements.length; i++) {
             if ($elements[i].hasAttribute('required')) {
                 if (util.validateNullOrEmpty((jQuery($elements[i]).val()=="0")?"":jQuery($elements[i]).val())) {
                     if ($elements[i].hasAttribute('pattern')) {
-                        var result = RegExp($elements.pattern).exec($elements[i].value);
-                        if (result != null) {
+                        var reg = RegExp($elements[i].pattern);
+                        if(jQuery($elements[i]).hasClass("isNumber")){
+                          result= reg.test(parseInt($elements[i].value));
+                          //result= $elements[i].value.match($elements[i].pattern);
+                        }else{
+                          //result= reg.test($elements[i].value);
+                          result= $elements[i].value.match($elements[i].pattern);
+                        }
+                        
+                        
+                        if (result !==null) {
                             entity[$elements[i].name] = jQuery($elements[i]).val();
                         } else {
                             inputsErr.push({
@@ -87,6 +98,16 @@ var util = {
                         }
                     } else {
                         entity[$elements[i].name] = jQuery($elements[i]).val();
+                    }
+
+                    if($elements[i].hasAttribute('maxLength')){
+                        if(jQuery($elements[i]).val().length > $elements[i].maxLength){
+                          inputsErr.push({
+                            pattern:false,
+                            title:'',
+                            name:mesages.msg_lon_M.replace("${text}",property[$elements[i].getAttribute('data-original-name')]).replace("${number}",$elements[i].maxLength)
+                          })
+                        }
                     }
                 } else {
                     inputsErr.push({
@@ -107,19 +128,6 @@ var util = {
                 text += (i < cant) ? inputsErr[i].name  + "<br>" : inputsErr[i].name;
             }
             message.showMessage('!Formulario No valido!',text,'error');
-           /*  swal({
-                title: "",
-                text: text,
-                type: "warning",
-                showCancelButton: false,
-                confirmButtonColor: "#5cb85c",
-                confirmButtonText: "OK",
-                animation: "slide-from-top",
-                closeOnConfirm: false
-            }, function () {
-
-                jQuery(".cancel").click();
-            }); */
             return {validate:false};
         } else {
             return {validate:true, entity};
@@ -152,6 +160,10 @@ var util = {
     m = (m>=10) ? m : "0"+m;
     da = (da>=10) ? da:"0"+da;
     return (d.getFullYear()+s+m+s+da);
+  },
+
+  soloNumeros:function(element){
+    element.value = element.value.replace(/[^0-9]/g,'');
   }
 
 
@@ -176,7 +188,7 @@ var utilGrid = {
     }
   },
   component: {
-    setOrder: function () {
+   /*  setOrder: function () {
       var sortOrders = {}
       this.columns.forEach(function (key) {
         if (key !== "") {
@@ -187,7 +199,7 @@ var utilGrid = {
         sortKey: '',
         sortOrders: sortOrders
       }
-    }
+    } */
   },
 
   computed: {
@@ -231,8 +243,6 @@ var utilGrid = {
     var demo = new Vue({
       el: object.element,
       data: {
-        searchQuery: '',
-        gridColumns: object.columns,
         gridData: object.data
       }
     });
@@ -441,5 +451,15 @@ const utilXHTTP={
                 }
             })
         });
+    },
+    post:async function(action,data){
+      return new Promise((resolve,reject)=>{
+        $.post((utilXHTTP.url+action),data,function(data,status){
+          if(data.status==utilXHTTP.status.OK){
+            console.log(data);
+            resolve(data);
+          }
+        });
+      });
     }
 }

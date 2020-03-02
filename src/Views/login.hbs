@@ -1,0 +1,67 @@
+ 
+ <head>
+      <link rel="stylesheet" href="../fontawesome-free-5.12.1-web/css/all.css">
+      <link rel="stylesheet" href="../vipermedix/css/login.css">
+      <script src="../js/util.js"></script>
+      <script src="../vipermedix/js/properties.js"></script>
+     <script src="../vipermedix/js/login.js"></script>
+ </head>
+ <div class="container"> 
+     <div class="row">
+        <div class="col-md-12 min-vh-100 d-flex flex-column justify-content-center">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <div class="card">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-4 bod-r">
+                                    <img src="../img/Logotipo OwalTek.jpg" class="img-fluid"/>
+                                </div>
+                                <div class="col-8">
+                                    <h1 class="txt-tit-log">Sistemas Owaltek</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / Card Header -->
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <from id={{login.frm_name}}>
+                                <div class="row">
+                                    <div class="col-sm-10 offse offset-sm-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="fas fa-hospital-alt input-group-text"></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder={{login.key_emp}} v-model={{login.frm_emp}} name="{{login.frm_emp}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10 offset-sm-1 mtop-10">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="far fa-user-circle input-group-text"></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder={{login.key_user}} v-model={{login.frm_usr}}>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10 offset-sm-1 mtop-10">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="fas fa-unlock input-group-text" ></span>
+                                            </div>
+                                            <input type="password" class="form-control" v-model={{login.frm_pas}}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </from>
+                            <div class="col-xl-4 offset-xl-4  col-lg-6  offset-lg-3  col-sm-10 offset-sm-1  mtop-10">
+                                <div class="d-flex flex-column">
+                                    <button type="button" class="bnt btn-primary">{{login.key_iniS}}</button>
+                                </div>
+                        </div>    
+                        <!-- / Card Body -->
+                    </div>    
+                </div>
+            </div>    
+    </div>
+</div>

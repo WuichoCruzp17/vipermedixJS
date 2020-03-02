@@ -37,7 +37,7 @@ const inventario ={
     frm_anti:'isRecipe',
     frm_cad:'caducidad',
     frm_lote:'num_lote',
-    frm_canl:'cant_lote',
+    frm_cant:'cant_lote',
     frm_cadl:'cad_lote',
     frm_cadp:'cad_posicion',
     frm_CadN:'frm_caducidad',
@@ -49,7 +49,9 @@ const inventario ={
     tbl_btmod:'Seleccionar',
     msg_cantl:'El campo de cantidad no puede ir vacio',
     msg_cadl:'Debe de seleccionar una fecha de caducidad',
-    dtp_plac:'Seleccione una fecha'
+    dtp_plac:'Seleccione una fecha',
+    msg_lote:'El número de lote es requerido',
+    msg_canl:'Cantidad de lote es requerido'
 
 };
 
@@ -65,7 +67,11 @@ const login ={
     key_emp:'Empresa',
     key_user:'Usuario',
     key_pass:'Contraseña',
-    key_iniS:'Iniciar   Sesion'
+    key_iniS:'Iniciar   Sesion',
+    frm_name:'frm_login',
+    frm_emp:'empresa',
+    frm_usr:'usuario',
+    frm_pas:'password'
 };
 
 const service={

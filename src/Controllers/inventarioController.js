@@ -1,5 +1,6 @@
 const inventarioController = {};
 const product = require('../Models/Product');
+const productController = require('../Controllers/productController');
 const supplierController = require('../Controllers/supplierController');
 const pharmacyBranchController = require('../Controllers/pharmacyBranchController');
 const productLocationController = require('../Controllers/productLocationController');
@@ -17,7 +18,9 @@ inventarioController.index = async(req, res) =>{
 }
 
 inventarioController.getProduct = async(req,res)=>{
-    const products = await product.findAll();
-    res.status(200).json({status:200, products});
+    const body = req.body;
+    const products = await productController.getProduct(body.p_tipo,body.p_product_id,body.p_sucu_id,body.p_barcode);
+    const successful = (products !==null) ? true:false;
+    res.status(200).json({status:200, products,successful});
 }
 module.exports = inventarioController;

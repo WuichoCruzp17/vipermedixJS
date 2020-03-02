@@ -30,6 +30,7 @@ app.use((req, res, next)=>{
     app.locals.user    =req.user;
     next();
 });
+app.use('/', require('./routes/login'));
 app.use('/vipermedix/inventario', require('./routes/inventario'));
 
 //Public
