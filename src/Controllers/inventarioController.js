@@ -8,6 +8,7 @@ const {inventario,global, login, service,regular_expresion,mesages, form_group} 
 
 
 inventarioController.index = async(req, res) =>{
+    console.log("Session --->",req.session);
     const suppliers =await supplierController.findAll();
     const pharmacyBranchs = await pharmacyBranchController.findAll();
     const productLocations = await productLocationController.findAll();
