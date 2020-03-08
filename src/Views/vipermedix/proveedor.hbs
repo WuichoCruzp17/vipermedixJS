@@ -1,0 +1,89 @@
+{{>menuVertical}}
+ <head>
+   <link rel="stylesheet" href="../css/groupbox.css">
+   <script src="../js/util.js"></script>
+   <script src="../js/sweetalert2@9.js"></script>
+   <script src="../vipermedix/js/properties.js"></script>
+   <script src="../vipermedix/js/supplier.js"></script>
+ </head>   
+<div class="content-page-container full-reset custom-scroll-containers">
+  {{>menuHorizontal}}
+    <div class="container-fluid">
+      <div class="row mtop-10">
+         <div class="col-sm-12">
+           <fieldset class="well">
+              <legend class="well-legend text-uppercase">{{supp.key_addP}}:</legend>
+               <form id={{supp.frm_name}}>
+                 <div class="row">
+
+                   <div class="col-sm-4">
+                     <div class="form-group">
+                       <label for="{{supp.frm_nameS}}">{{supp.key_name}}</label>
+                       <input type="text" class="form-control" id={{supp.frm_nameS}} v-model={{supp.frm_nameS}} maxlength="256" minlength="20">
+                     </div>
+                   </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="{{supp.frm_rfc}}">{{supp.key_rfc}}</label>
+                        <input type="text" class="form-control" id={{supp.frm_rfc}} v-model={{supp.frm_rfc}} maxlength="13" minlength="13">
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for={{supp.frm_frm_ksp}}>{{supp.key_ksp}}</label>
+                        <input type="text" class="form-control" id={{supp.frm_ksp}} v-model={{supp.frm_ksp}} maxlength="30">
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for={{supp.frm_ASAT}}>{{supp.key_ASAT}}</label>
+                        <select class="form-control" id={{supp.frm_ASAT}} v-modele={{supp.frm_ASAT}}>
+                          <option value="0">-- Seleccione --</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for={{supp.frm_tele}}>{{supp.key_tele}}</label>
+                        <input type="text" class="form-control" id={{supp.frm_tele}} v-model={{supp.frm_tele}} maxlength="20">
+                      </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for={{supp.frm_cel}}>{{supp.key_cel}}</label>
+                        <input type="text" class="form-control" id={{supp.frm_cel}} v-model={{supp.frm_cel}} maxlength="13">
+                      </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for={{supp.frm_email}}>{{supp.key_email}}</label>
+                        <input type="text" class="form-control" id={{supp.frm_email}} v-model={{supp.frm_email}} maxlength="50" pattern="^[a-zA-Z0-9_\-\.~]{2,}@[a-zA-Z0-9_\-\.~]{2,}\.[a-zA-Z]{2,4}$
+" required>
+                      </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for={{supp.frm_logo}}>{{supp.key_log}}</label>
+                        <input type="file" class="form-control" id={{supp.frm_logo}} v-on:change="{{supp.frm_logo}}">
+                      </div>
+                  </div>
+                    <div class="col-sm-12">
+                       <p class="text-center">
+                         <button type="button" class="btn btn-success mtop-10" value="{{supp.frm_name}}" v-on:click="validateSupplier">{{global.key_guad}}</button>
+                          <button type="button" class="btn btn-default mtop-10" >{{global.key_limp}}</button>
+                       </p>
+                    </div>
+                 </div>
+               </form>
+           </fieldset>
+         </div>
+      </div>
+    </div>
+</div>
