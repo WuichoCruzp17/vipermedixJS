@@ -44,9 +44,6 @@ supplier.columns ={
     },
     lastModifiedBy:{
         column:'LastModifiedBy'
-    },
-    addressSAT:{
-        column:'AddressSAT'
     }
 }
 

@@ -32,6 +32,7 @@ app.use((req, res, next)=>{
 });
 app.use('/', require('./routes/login'));
 app.use('/vipermedix/inventario', require('./routes/inventario'));
+app.use('/vipermedix/proveedor', require('./routes/supplier'));
 
 //Public
 app.use(express.static(path.join(__dirname, 'public')));

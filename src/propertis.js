@@ -55,6 +55,28 @@ const inventario ={
 
 };
 
+const suppliers ={
+    key_addP:'Información de  Proveedor',
+    key_name:'Nombre',
+    key_rfc:'RFC',
+    key_ksp:'Clave del proveeor',
+    key_ASAT:'Dirección  SAT',
+    key_tele:'Telefono',
+    key_cel:'Celular',
+    key_email:'Correo',
+    key_log:'Logo',
+    frm_name:'frm_supplier',
+    frm_nameS:'supplierName',
+    frm_rfc:'RFC',
+    frm_frm_ksp:'supplierKey',
+    frm_ksp:'addressSATId',
+    frm_tele:'phoneNumber',
+    frm_cel:'cellPhoneNumber',
+    frm_email:'emailAddress',
+    frm_logo:'logo'
+
+};
+
 const global ={
     key_bus:'Buscar',
     key_limp:'Limpiar',
@@ -94,4 +116,4 @@ const form_group={
     btn:'button'
 };
 
-module.exports = {inventario,global, login, service,regular_expresion,mesages, form_group}
+module.exports = {inventario,global, login, service,regular_expresion,mesages, form_group,suppliers}

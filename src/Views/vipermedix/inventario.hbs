@@ -8,6 +8,10 @@
     <script src="../vipermedix/js/properties.js"></script>
     <script src="../vipermedix/js/inventario.js"></script>
 </head>
+ {{>menuVertical}}
+<div class="content-page-container full-reset custom-scroll-containers">
+  {{>menuHorizontal}}
+<div class="container-fluid">
 <div class="row mtop-10">
     <div class="col-sm-12">
         <fieldset class="well">
@@ -105,7 +109,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="row">
-                                            <div class="col-xl-3 offset-xl-4 col-sm-3 offset-sm-4 col-md-3 offset-md-4">
+                                            <div class="col-lg-3 offset-lg-4 col-sm-3 col-sm-offset-4 col-md-3 col-md-offset-4">
                                                 <div class="form-check form-check-inline">
                                                     <input type="checkbox" class="form-check-input"
                                                         name="{{inv.frm_cad}}" v-model={{inv.frm_cad}}></input>
@@ -113,7 +117,7 @@
                                                         className="form-check-label text-uppercase">{{inv.key_cad}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-3 offset-xl-1 col-sm-3 offset-sm-2 col-md-3 offset-md-1">
+                                            <div class="col-lg-3 col-lg-offset-1 col-sm-3 col-sm-offset-2 col-md-3 col-md-offset-1">
                                                 <div class="form-check form-check-inline">
                                                     <input type="checkbox" class="form-check-input"
                                                         name="{{inv.frm_anti}}"></input>
@@ -145,7 +149,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4 offset-sm-2">
+                                            <div class="col-sm-4 col-sm-offset-2">
                                                 <div class="row">
                                                     <div class="col-sm-12 text-uppercase">
                                                         {{inv.key_cantAd}}
@@ -171,7 +175,7 @@
     <fieldset class="well">
         <legend class="well-legend text-uppercase">{{inv.key_agIn}}:</legend>
         <div class="row">
-            <div className="col-sm-12 text-center text-uppercase">{{inv.key_titM}}</div>
+            <div class="col-sm-12 text-center text-uppercase">{{inv.key_titM}}</div>
             <div class="col-sm-12 text-center text-uppercase">{{inv.key_subtM}}</div>
             <div class="col-sm-3 text-center text-uppercase">{{inv.key_numLoM}}</div>
             <div class="col-sm-2 text-center text-uppercase">{{inv.key_cantM}}</div>
@@ -184,11 +188,15 @@
                         <div class="col-sm-3"><input type="text" class="form-control isNumber" name="{{inv.frm_lote}}"  v-model={{inv.frm_lote}} minLength="{{inv.mnl_lote}}" maxLength="{{inv.mxl_lote}}" pattern="[0-9]" data-original-title="{{inv.msg_lote}}" data-original-name="key_numLoM"  required></input></div>
                         <div class="col-sm-2"><input type="text" class="form-control isNumber" name="{{inv.frm_cant}}" v-model="{{inv.frm_cant}}"  pattern="[0-9]" data-original-title="{{inv.msg_canl}}" data-original-name="key_cantM" required></input></div>
                         <div class="col-sm-3 text-center">
-                            <vuejs-datepicker v-model="{{inv.frm_cadl}}"  :bootstrap-styling="true" name="{{inv.frm_cadl}}" :inline="false" :language="es"></vuejs-datepicker>
+                            {{!-- <vuejs-datepicker v-model="{{inv.frm_cadl}}"  :bootstrap-styling="true" name="{{inv.frm_cadl}}" :inline="false" :language="es"></vuejs-datepicker>
+                             --}}
+                             <input type="date" class="form-control" v-model="{{inv.frm_cadl}}" name="{{inv.frm_cadl}}">
                         </div>
-                        <div class="col-lg-1 col-sm-2 col-md-2"><button type="button"
-                                class="btn btn-primary" value="{{inv.frm_CadN}}" v-on:click="validarIventario">{{global.key_acep}}</Button></div>
-                        <div class="col-xl-1 col-sm-2 col-md-2 col-2"><button class="btn btn-secondary">Limpiar</Button>
+                        <div class="col-lg-4">
+                            <p class="text-center">
+                                <button type="button" class="btn btn-primary" value="{{inv.frm_CadN}}" v-on:click="validarIventario">{{global.key_acep}}</button>
+                                <button type="button" class="btn btn-default">Limpiar</button>
+                            </p>
                         </div>
                     </div>
                 </form>
@@ -214,15 +222,16 @@
 </div>
 
 <div class="row mbot-20">
-    <div class="col-sm-4 offset-sm-2">
-        <button type="button" class="btn btn-success mtop-10" style="width:100%">{{global.key_guad}}</button>
-    </div>
-    <div class="col-sm-4">
-        <button type="button" class="btn btn-primary mtop-10"
-            style="width:100%">{{global.key_limp}}</button>
+    <div class="col-lg-12">
+        <p class="text-center">
+            <button type="button" class="btn btn-success mtop-10">{{global.key_guad}}</button>
+            <button type="button" class="btn btn-primary mtop-10">{{global.key_limp}}</button>
+        </p>
+        
     </div>
 </div>
-
+</div>
+</div>
 <script type="text/x-template" id="grid-template">
      <table class="table table-striped" style="margin-Top:10px">
                     <thead>

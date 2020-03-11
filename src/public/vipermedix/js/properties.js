@@ -87,6 +87,28 @@ const mesages={
     msg_lon_m:'El ${text} debe de cumplir por lo menos ${number} caracteres'
 };
 
+
+const suppliers ={
+    key_addP:'Agregar Proveedor',
+    key_name:'Nombre',
+    key_rfc:'RFC',
+    key_ksp:'Clave del proveeor',
+    key_ASAT:'Dirección  SAT',
+    key_tele:'Telefono',
+    key_cel:'Celular',
+    key_email:'Correo',
+    key_log:'Logo',
+    frm_name:'frm_supplier',
+    frm_nameS:'supplierName',
+    frm_rfc:'RFC',
+    frm_frm_ksp:'supplierKey',
+    frm_ksp:'addressSATId',
+    frm_tele:'phoneNumber',
+    frm_cel:'cellPhoneNumber',
+    frm_email:'emailAddress',
+    frm_logo:'logo'
+
+};
 const form_group={
     txt:'text',
     slc:'select',
