@@ -3,11 +3,12 @@ const morgan =    require('morgan');
 const expresshbs =  require('express-handlebars');
 const path =    require('path');
 const session =    require('express-session');
-const sql = require('mssql/msnodesqlv8')
-const genericDAO = require("./DAO/GenericDAO");
+const sql = require('mssql/msnodesqlv8');
+const passport =    require('passport');
+const coonexionMSSQLStore = require('./mssqlstore');
 //Initizations
 const app =    express();
-
+require('./lib/passport');
 //Settings
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname,'views'));
@@ -23,7 +24,21 @@ app.set('view engine','.hbs');
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
+
+//Passport
+
+app.set('trust proxy', 1) ;
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store:coonexionMSSQLStore
+  }));
 //app.use(passport.initialize());
+//app.use(passport.session());
+app.use(express.json());
 
 //Global Variables
 app.use((req, res, next)=>{
