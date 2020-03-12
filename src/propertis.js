@@ -66,14 +66,20 @@ const suppliers ={
     key_email:'Correo',
     key_log:'Logo',
     frm_name:'frm_supplier',
+    frm_id:'id',
     frm_nameS:'supplierName',
-    frm_rfc:'RFC',
-    frm_frm_ksp:'supplierKey',
-    frm_ksp:'addressSATId',
+    frm_rfc:'rfc',
+    frm_ksp:'supplierKey',
+    frm_ASAT:'addressSATId',
     frm_tele:'phoneNumber',
     frm_cel:'cellPhoneNumber',
     frm_email:'emailAddress',
-    frm_logo:'logo'
+    frm_logo:'logo',
+    msg_name:'Nombre es requerido',
+    msg_rfc:'El RFC es requerido',
+    msg_ksp:'Clave del proveeor es requerido',
+    msg_ASAT:'La dirección es requerido',
+    msg_email:'El correo es requerido'
 
 };
 

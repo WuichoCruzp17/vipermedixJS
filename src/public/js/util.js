@@ -92,7 +92,7 @@ var util = {
                         } else {
                             inputsErr.push({
                                 pattern: true,
-                                title: "Información proporcionada no valida",
+                                title: "Información proporcionada no valida: "+property[$elements[i].getAttribute('data-original-name')],
                                 name: property[$elements[i].getAttribute('data-original-name')]
                             });
                         }
@@ -125,7 +125,7 @@ var util = {
             var text = "Revise los siguientes campos del formulario :<br>";
             var cant = inputsErr.length - 1;
             for (i = 0; i < inputsErr.length; i++) {
-                text += (i < cant) ? inputsErr[i].name  + "<br>" : inputsErr[i].name;
+                text += (i < cant) ? inputsErr[i].title + "<br>" : inputsErr[i].title ;
             }
             message.showMessage('!Formulario No valido!',text,'error');
             return {validate:false};
@@ -188,7 +188,7 @@ var utilGrid = {
     }
   },
   component: {
-   /*  setOrder: function () {
+    setOrder: function () {
       var sortOrders = {}
       this.columns.forEach(function (key) {
         if (key !== "") {
@@ -199,7 +199,7 @@ var utilGrid = {
         sortKey: '',
         sortOrders: sortOrders
       }
-    } */
+    }
   },
 
   computed: {
@@ -217,8 +217,8 @@ var utilGrid = {
       }
       if (sortKey) {
         heroes = heroes.slice().sort(function (a, b) {
-          a = a[sortKey.name]
-          b = b[sortKey.name]
+          a = a[sortKey.column]
+          b = b[sortKey.column]
           return (a === b ? 0 : a > b ? 1 : -1) * order
         })
       }
@@ -243,6 +243,8 @@ var utilGrid = {
     var demo = new Vue({
       el: object.element,
       data: {
+        searchQuery: '',
+        gridColumns: object.columns,
         gridData: object.data
       }
     });
@@ -359,7 +361,7 @@ var utilArticle = {
   dataDefault: function () {
     var sortOrders = {}
     this.columns.forEach(function (key) {
-      sortOrders[key] = 1
+      sortOrders[key.column] = 1
     })
     return {
       sortKey: '',
@@ -368,8 +370,24 @@ var utilArticle = {
   },
   computed: {
   filteredHeroes: function () {
+    var sortKey = this.sortKey
+    var filterKey = this.filterKey && this.filterKey.toLowerCase()
+    var order = this.sortOrders[sortKey] || 1
     var heroes = this.heroes;
-    
+    if (filterKey) {
+      heroes = heroes.filter(function (row) {
+        return Object.keys(row).some(function (key) {
+          return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+        })
+      })
+    }
+    if (sortKey) {
+      heroes = heroes.slice().sort(function (a, b) {
+        a = a[sortKey.column]
+        b = b[sortKey.column]
+        return (a === b ? 0 : a > b ? 1 : -1) * order
+      })
+    }
     return heroes
   }
 },
@@ -381,7 +399,7 @@ var utilArticle = {
   methods: {
     sortBy: function (key) {
       this.sortKey = key
-      this.sortOrders[key] = this.sortOrders[key] * -1
+      this.sortOrders[key.column] = this.sortOrders[key.column] * -1
     },
   },
   component: {
@@ -389,7 +407,7 @@ var utilArticle = {
       var sortOrders = {}
       this.columns.forEach(function (key) {
         if (key !== "") {
-          sortOrders[key] = 1
+          sortOrders[key.column] = 1
         }
       })
       return {
@@ -437,7 +455,7 @@ const message ={
 }
 
 const utilXHTTP={
-    url:'/vipermedix/inventario',
+    url:'/vipermedix/',
     status:{
         OK:200
     },
