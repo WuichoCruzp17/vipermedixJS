@@ -10,7 +10,7 @@ const supplierJS={};
 supplierJS.validateModel=function(event){
     const result = util.validateForm(event.target.value, suppliers);
     if(result.validate){
-        console.log("Valido");  
+        supplierJS.update(result.entity);
     }
 };
 
@@ -28,7 +28,14 @@ supplierJS.findAll = async function(){
         modsJS.grid._data.gridData =[];
         modsJS.grid._data.gridData =result.data.rows.data;
     }
-}
+};
+
+supplierJS.update = async function(model){
+    const result = await utilXHTTP.post("proveedor/update",model);
+    if(result.successful){
+        message.showMessage("Procedimiento exitoso","Se ha actualizado correctament el proveedor","success");
+    }
+};
 
 modsJS.ini =function(){
 

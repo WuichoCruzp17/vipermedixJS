@@ -77,16 +77,14 @@ var util = {
             if ($elements[i].hasAttribute('required')) {
                 if (util.validateNullOrEmpty((jQuery($elements[i]).val()=="0")?"":jQuery($elements[i]).val())) {
                     if ($elements[i].hasAttribute('pattern')) {
-                        var reg = RegExp($elements[i].pattern);
+                        var reg = RegExp(eval($elements[i].pattern));
                         if(jQuery($elements[i]).hasClass("isNumber")){
                           result= reg.test(parseInt($elements[i].value));
                           //result= $elements[i].value.match($elements[i].pattern);
                         }else{
                           //result= reg.test($elements[i].value);
-                          result= $elements[i].value.match($elements[i].pattern);
-                        }
-                        
-                        
+                          result= $elements[i].value.match(eval($elements[i].pattern));
+                        } 
                         if (result !==null) {
                             entity[$elements[i].name] = jQuery($elements[i]).val();
                         } else {

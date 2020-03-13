@@ -147,7 +147,7 @@ utilModel.updateColumns = function (cols) {
 };
 utilModel.executeQuery = async function (query, params) {
     try {
-        const row = await pool.query(query, params);
+        const row = await genericDAO.execute(query, params);
         return (row) ? row : null;
     } catch (err) { console.log(err); return null; }
 };

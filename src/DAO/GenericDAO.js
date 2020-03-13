@@ -49,23 +49,42 @@ genericDAO.execute = async(query,params)=>{
 genericDAO.executeProcedure =async(sp, params)=>{
     console.log("Parametros",params);
     return new Promise((resolve,reject)=>{
-        sql.open(connectionString,(err,conn)=>{
-            if(err){
-                console.log(err);
-                resolve ('No hay conexión con la base de datos');
-            }else{
-                var pm = conn.procedureMgr();
-                pm.callproc(sp,params,(error,result,output)=>{    
-                    if(error){
-                        console.log(error);
-                        console.log(result);    
-                        resolve('Error al ejecutar el proceso');
-                    }else{
-                        resolve({data:result,output});
+        try{
+            sql.open(connectionString,(err,conn)=>{
+                console.log("Connexion");
+                if(err){
+                    console.log("Error 1 --->",err);
+                    resolve ('No hay conexión con la base de datos');
+                }else{
+                    var pm = conn.procedureMgr();
+                    console.log("PM-->");
+                    try{
+                        console.log("CALL-->",sp, params)
+                        pm.callproc(sp,params,function(error,result,output){ 
+                               
+                            if(error){
+                                console.log("Errror --->",error);
+                                console.log(result);    
+                                resolve('Error al ejecutar el proceso');
+                            }else{
+                                resolve({data:result,output});
+                            }
+                        })
+                    }catch(err){
+                        console.log(err);
+                        resolve("Error en el servior");
                     }
-                })
-            }
-        })  
+                    
+                }
+            })
+
+        }catch(err){
+            console.log(err);
+        }
+        
+    }).catch(function(err){
+        console.log(err);
     });
 };
+
 module.exports = genericDAO;

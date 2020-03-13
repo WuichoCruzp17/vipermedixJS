@@ -20,6 +20,7 @@
                           style="display: none;"
                           class="form-control" 
                           id={{supp.frm_id}} 
+                          name={{supp.frm_id}} 
                           v-model={{supp.frm_id}} 
                           >
                    <div class="col-sm-4">
@@ -28,6 +29,7 @@
                        <input type="text" 
                           class="form-control" 
                           id={{supp.frm_nameS}} 
+                          name={{supp.frm_nameS}} 
                           v-model={{supp.frm_nameS}} 
                           maxlength="256" minlength="20" 
                           pattern="/[A-Za-z]$/" 
@@ -43,6 +45,7 @@
                         <input type="text" 
                                class="form-control" 
                                id={{supp.frm_rfc}} 
+                               name={{supp.frm_rfc}}
                                v-model={{supp.frm_rfc}} 
                                maxlength="13" 
                                minlength="13" 
@@ -58,6 +61,7 @@
                         <input type="text" 
                                class="form-control"
                                id={{supp.frm_ksp}} 
+                               name={{supp.frm_ksp}} 
                                v-model={{supp.frm_ksp}} 
                                maxlength="30"
                                data-original-title="{{supp.msg_ksp}}" 
@@ -72,6 +76,7 @@
                         <label for={{supp.frm_ASAT}}>{{supp.key_ASAT}}</label>
                         <select class="form-control" v-on:hange="changeSelect"
                                 id={{supp.frm_ASAT}} 
+                                name={{supp.frm_ASAT}} 
                                 v-modele={{supp.frm_ASAT}} 
                                 data-original-title="{{supp.msg_ASAT}}" 
                                 data-original-name="key_ASAT"
@@ -89,14 +94,14 @@
                   <div class="col-sm-4">
                       <div class="form-group">
                         <label for={{supp.frm_tele}}>{{supp.key_tele}}</label>
-                        <input type="text" class="form-control" id={{supp.frm_tele}} v-model={{supp.frm_tele}} maxlength="20">
+                        <input type="text" class="form-control" id={{supp.frm_tele}} name={{supp.frm_tele}} v-model={{supp.frm_tele}} maxlength="20">
                       </div>
                   </div>
 
                   <div class="col-sm-4">
                       <div class="form-group">
                         <label for={{supp.frm_cel}}>{{supp.key_cel}}</label>
-                        <input type="text" class="form-control" id={{supp.frm_cel}} v-model={{supp.frm_cel}} maxlength="13">
+                        <input type="text" class="form-control" id={{supp.frm_cel}} name={{supp.frm_cel}} v-model={{supp.frm_cel}} maxlength="13">
                       </div>
                   </div>
 
@@ -106,6 +111,7 @@
                         <input type="text" 
                                class="form-control" 
                                id={{supp.frm_email}} 
+                               name={{supp.frm_email}} 
                                v-model={{supp.frm_email}} 
                                maxlength="50" 
                                pattern="^[a-zA-Z0-9_\-\.~]{2,}@[a-zA-Z0-9_\-\.~]{2,}\.[a-zA-Z]{2,4}$" 
@@ -118,7 +124,7 @@
                   <div class="col-sm-4">
                       <div class="form-group">
                         <label for={{supp.frm_logo}}>{{supp.key_log}}</label>
-                        <input type="file" class="form-control" id={{supp.frm_logo}} v-on:change="{{supp.frm_logo}}">
+                        <input type="file" class="form-control" id={{supp.frm_logo}} name={{supp.frm_logo}} v-on:change="{{supp.frm_logo}}">
                       </div>
                   </div>
                     <div class="col-sm-12">

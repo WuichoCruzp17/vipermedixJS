@@ -110,7 +110,7 @@ modsJS.validete = function(event){
     }
 }
 modsJS.getProduct = async function(p_tipo,p_product_id,p_sucu_id,p_barcode){
-   const result = await utilXHTTP.post('/getProduct',{p_tipo,p_product_id,p_sucu_id,p_barcode});
+   const result = await utilXHTTP.post('inventario/getProduct',{p_tipo,p_product_id,p_sucu_id,p_barcode});
    if(result.successful){
       util.updateFrom(modsJS[inventario.frm_name],result.products.data[0]);
    }else{
