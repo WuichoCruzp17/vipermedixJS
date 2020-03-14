@@ -8,7 +8,8 @@ var util = {
       el: object.el,
       data:object.model,
       methods: util.isTheProperty(object, 'methods') ? object.methods :null,
-      components:util.isTheProperty(object, 'components') ? object.components :null
+      components:util.isTheProperty(object, 'components') ? object.components :null,
+      watch:util.isTheProperty(object, 'watch') ? object.components :null,
     })
   },
 

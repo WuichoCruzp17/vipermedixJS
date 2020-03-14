@@ -18,8 +18,8 @@ supplierJS.findById = async function(id){
     const result = await utilXHTTP.get('proveedor/getSuppliers/L1/'+id+'/$');
     if(result.data.successful){
         util.updateFrom(modsJS[suppliers.frm_name], result.data.rows.data[0]);
+        jQuery("#"+suppliers.frm_ASAT).val(result.data.rows.data[0].addressSATId);
     }
-    console.log(result);
 };
 
 supplierJS.findAll = async function(){
@@ -34,7 +34,34 @@ supplierJS.update = async function(model){
     const result = await utilXHTTP.post("proveedor/update",model);
     if(result.successful){
         message.showMessage("Procedimiento exitoso","Se ha actualizado correctament el proveedor","success");
+        supplierJS.findAll();
     }
+};
+
+supplierJS.changeStatus = async function(suppId){
+    console.log(suppId);
+    var supplier =null;
+    for(var i =0;i<modsJS.grid.gridData.length;i++){
+        if(modsJS.grid.gridData[i].id == suppId){
+            supplier = modsJS.grid.gridData[i];
+        }
+    }
+    supplier.isActive = (supplier.isActive) ? false:true;
+    supplierJS.updateStatus(supplier);
+}
+
+supplierJS.updateStatus = async function(model){
+    const result =  utilXHTTP.post('proveedor/updateStatus', model);
+    if(result.successful){
+        supplierJS.findAll();
+    }else{
+        message.showMessage('Error en el servior','Ups, hubo un problema en el servidor, vuelva a intentarlo o vuelva mas tarde','error')
+    }
+}
+
+supplierJS.limpiar = function(){
+    const form = document.getElementById(suppliers.frm_name);
+    form.reset();
 };
 
 modsJS.ini =function(){
@@ -50,7 +77,11 @@ modsJS.ini =function(){
     data_frm_supp[suppliers.frm_cel] ='';
     data_frm_supp[suppliers.frm_email] ='';
     data_frm_supp[suppliers.frm_logo] ='';
-
+    const watch={};
+    watch[suppliers.frm_ASAT]= function(val){
+        console.log(val);
+        this[suppliers.frm_ASAT] = val;
+    }
     modsJS[suppliers.frm_name] =util.createVueFrom({
         el:'#'+suppliers.frm_name,
         model:data_frm_supp,
@@ -58,8 +89,11 @@ modsJS.ini =function(){
             validateSupplier:supplierJS.validateModel,
             changeSelect:function(event){
                 console.log(event);
-            }
-        }
+            },
+            limpiar:supplierJS.limpiar,
+            changeStatus:supplierJS.changeStatus
+        },
+        watch:null
     });
 
     modsJS.grid = utilGrid.createGrid({
