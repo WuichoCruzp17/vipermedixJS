@@ -95,9 +95,21 @@ var util = {
                                 name: property[$elements[i].getAttribute('data-original-name')]
                             });
                         }
-                    } else {
-                        entity[$elements[i].name] = jQuery($elements[i]).val();
-                    }
+                    }else{
+                        if($elements[i].classList[1]=='isRFC'){
+                          if(utilRFC.validate($elements[i].value) !== false){
+                            entity[$elements[i].name] = jQuery($elements[i]).val();
+                          }else{
+                            inputsErr.push({
+                              pattern: true,
+                              title: "Información proporcionada no valida: "+property[$elements[i].getAttribute('data-original-name')],
+                              name: property[$elements[i].getAttribute('data-original-name')]
+                          });
+                          }
+                        }else{
+                          entity[$elements[i].name] = jQuery($elements[i]).val();
+                        } 
+                    } 
 
                     if($elements[i].hasAttribute('maxLength')){
                         if(jQuery($elements[i]).val().length > $elements[i].maxLength){
@@ -116,8 +128,25 @@ var util = {
                     });
                 }
             } else {
-                entity[$elements[i].name] = jQuery($elements[i]).val();
-            }
+                if($elements[i].classList[1]==='isEmail'){
+                  if($elements[i].value !==""){
+                      var regEmail = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/);
+                      if(regEmail.test($elements[i].value)){
+                          entity[$elements[i].name] = jQuery($elements[i]).val();
+                          }else{
+                            inputsErr.push({
+                                        pattern: true,
+                                        title: "Información proporcionada no valida: "+property[$elements[i].getAttribute('data-original-name')],
+                                        name: property[$elements[i].getAttribute('data-original-name')]
+                            });
+                          }
+                  }else{
+                    entity[$elements[i].name] = jQuery($elements[i]).val();
+                  } 
+                }else{
+                  entity[$elements[i].name] = jQuery($elements[i]).val();
+                }
+            } 
         }
 
         if (inputsErr.length > 0) {
@@ -349,9 +378,6 @@ var utilCard = {
 };
 
 
-
-////////////////////777
-
 var utilArticle = {
   propsDefault: {
     heroes: Array,
@@ -475,8 +501,49 @@ const utilXHTTP={
           if(data.status==utilXHTTP.status.OK){
             console.log(data);
             resolve(data);
+          }else{
+            resolve(data);
           }
         });
       });
     }
+}
+
+const utilRFC = {};
+
+utilRFC.validate = function validarRFC(rfc, aceptarGenerico = true){
+  const re       = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
+    var   validado = rfc.match(re);
+
+    if (!validado)  //Coincide con el formato general del regex?
+        return false;
+
+    //Separar el dígito verificador del resto del RFC
+    const digitoVerificador = validado.pop(),
+          rfcSinDigito      = validado.slice(1).join(''),
+          len               = rfcSinDigito.length,
+
+    //Obtener el digito esperado
+          diccionario       = "0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ",
+          indice            = len + 1;
+    var   suma,
+          digitoEsperado;
+
+    if (len == 12) suma = 0
+    else suma = 481; //Ajuste para persona moral
+
+    for(var i=0; i<len; i++)
+        suma += diccionario.indexOf(rfcSinDigito.charAt(i)) * (indice - i);
+    digitoEsperado = 11 - suma % 11;
+    if (digitoEsperado == 11) digitoEsperado = 0;
+    else if (digitoEsperado == 10) digitoEsperado = "A";
+
+    //El dígito verificador coincide con el esperado?
+    // o es un RFC Genérico (ventas a público general)?
+    if ((digitoVerificador != digitoEsperado)
+     && (!aceptarGenerico || rfcSinDigito + digitoVerificador != "XAXX010101000"))
+        return false;
+    else if (!aceptarGenerico && rfcSinDigito + digitoVerificador == "XEXX010101000")
+        return false;
+    return rfcSinDigito + digitoVerificador;
 }

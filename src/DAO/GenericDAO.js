@@ -4,19 +4,21 @@ const genericDAO ={};
 
 genericDAO.execute = async(query,params)=>{
     var rows = null;
-
+    console.log(query);
     return new Promise((resolve,reject)=>{
     if(params !== null && params !== undefined){
        sql.open(connectionString,(err,conn)=>{
             if(err){
-                resolve(err);
+                console.log(err);
+                resolve(null);
             }else{
                 conn.prepare(query,(e,ps)=>{
                     if(ps.getMeta()){
                         ps.preparedQuery([params],(error,fetched)=>{
                             
                             if(error){
-                                resolve(error);
+                                console.log(error);
+                                resolve(null);
                             }else{
                                 resolve(fetched);
                             }
@@ -47,43 +49,43 @@ genericDAO.execute = async(query,params)=>{
 };
 
 genericDAO.executeProcedure =async(sp, params)=>{
-    console.log("Parametros",params);
+/*     console.log("Parametros",params); */
     return new Promise((resolve,reject)=>{
         try{
             sql.open(connectionString,(err,conn)=>{
                 console.log("Connexion");
                 if(err){
                     console.log("Error 1 --->",err);
-                    resolve ('No hay conexión con la base de datos');
+                    resolve (null);
                 }else{
                     var pm = conn.procedureMgr();
-                    console.log("PM-->");
+                    console.log("PM-->",pm);
                     try{
                         console.log("CALL-->",sp, params)
                         pm.callproc(sp,params,function(error,result,output){ 
-                               
+                               console.log(" --- PM CALL ---");
                             if(error){
-                                console.log("Errror --->",error);
+                                console.log("Errror 2--->",error);
                                 console.log(result);    
-                                resolve('Error al ejecutar el proceso');
+                                resolve(null);
                             }else{
                                 resolve({data:result,output});
                             }
-                        })
+                        });
                     }catch(err){
-                        console.log(err);
-                        resolve("Error en el servior");
+                        console.log("Error 3-->",err);
+                        resolve(null);
                     }
                     
                 }
-            })
+            });
 
         }catch(err){
-            console.log(err);
+            console.log("Error 4--->",err);
         }
         
     }).catch(function(err){
-        console.log(err);
+        console.log("Error 5--->",err);
     });
 };
 

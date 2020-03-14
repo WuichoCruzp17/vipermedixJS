@@ -75,6 +75,7 @@ const suppliers ={
     frm_cel:'cellPhoneNumber',
     frm_email:'emailAddress',
     frm_logo:'logo',
+    frm_acti:'isActive',
     msg_name:'Nombre es requerido',
     msg_rfc:'El RFC es requerido',
     msg_ksp:'Clave del proveeor es requerido',

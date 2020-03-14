@@ -10,7 +10,12 @@ const supplierJS={};
 supplierJS.validateModel=function(event){
     const result = util.validateForm(event.target.value, suppliers);
     if(result.validate){
-        supplierJS.update(result.entity);
+        if(result.entity.id==""){
+            supplierJS.save(result.entity);
+        }else{
+            supplierJS.update(result.entity);
+        }
+        
     }
 };
 
@@ -30,17 +35,29 @@ supplierJS.findAll = async function(){
     }
 };
 
+supplierJS.save = async function(model){
+    const result = await utilXHTTP.post("proveedor/save",model);
+    if(result.successful){
+        message.showMessage("Procedimiento exitoso","Se ha  guardado el nuevo proveedor","success");
+        supplierJS.findAll();
+        supplierJS.limpiar();
+    }else{
+        message.showMessage('Error en el servior','Ups, hubo un problema en el servidor, vuelva a intentarlo o vuelva mas tarde','error');
+    }
+}
+
 supplierJS.update = async function(model){
     const result = await utilXHTTP.post("proveedor/update",model);
     if(result.successful){
         message.showMessage("Procedimiento exitoso","Se ha actualizado correctament el proveedor","success");
         supplierJS.findAll();
+    }else{
+        message.showMessage('Error en el servior','Ups, hubo un problema en el servidor, vuelva a intentarlo o vuelva mas tarde','error');
     }
 };
 
 supplierJS.changeStatus = async function(suppId){
-    console.log(suppId);
-    var supplier =null;
+    var supplier ={};
     for(var i =0;i<modsJS.grid.gridData.length;i++){
         if(modsJS.grid.gridData[i].id == suppId){
             supplier = modsJS.grid.gridData[i];
@@ -51,7 +68,7 @@ supplierJS.changeStatus = async function(suppId){
 }
 
 supplierJS.updateStatus = async function(model){
-    const result =  utilXHTTP.post('proveedor/updateStatus', model);
+    const result = await utilXHTTP.post('proveedor/updateStatus', model);
     if(result.successful){
         supplierJS.findAll();
     }else{
@@ -77,23 +94,13 @@ modsJS.ini =function(){
     data_frm_supp[suppliers.frm_cel] ='';
     data_frm_supp[suppliers.frm_email] ='';
     data_frm_supp[suppliers.frm_logo] ='';
-    const watch={};
-    watch[suppliers.frm_ASAT]= function(val){
-        console.log(val);
-        this[suppliers.frm_ASAT] = val;
-    }
     modsJS[suppliers.frm_name] =util.createVueFrom({
         el:'#'+suppliers.frm_name,
         model:data_frm_supp,
         methods:{
             validateSupplier:supplierJS.validateModel,
-            changeSelect:function(event){
-                console.log(event);
-            },
-            limpiar:supplierJS.limpiar,
-            changeStatus:supplierJS.changeStatus
-        },
-        watch:null
+            limpiar:supplierJS.limpiar
+        }
     });
 
     modsJS.grid = utilGrid.createGrid({
@@ -111,6 +118,7 @@ modsJS.ini =function(){
 
 modsJS.getComponent = function(){
     utilGrid.methods.findById = supplierJS.findById;
+    utilGrid.methods.changeStatus =  supplierJS.changeStatus;
         return {
             template:'#grid-template',
               props:    utilGrid.propsDefault,

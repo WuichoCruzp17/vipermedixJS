@@ -140,6 +140,7 @@ utilModel.updateColumns = function (cols) {
     var columnsSet = "SET ";
     var i = 0;
     for (var key in columns) {
+        console.log(key);
         columnsSet += (i < numColumns) ? `${columns[key].column} = '${columns[key].value}', ` : `${columns[key].column} = '${columns[key].value}'`
         i++;
     }

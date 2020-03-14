@@ -44,7 +44,7 @@
                       <div class="form-group">
                         <label for="{{supp.frm_rfc}}">{{supp.key_rfc}}</label>
                         <input type="text" 
-                               class="form-control" 
+                               class="form-control isRFC" 
                                id={{supp.frm_rfc}} 
                                name={{supp.frm_rfc}}
                                v-model={{supp.frm_rfc}} 
@@ -75,10 +75,10 @@
                     <div class="col-sm-4">
                       <div class="form-group">
                         <label for={{supp.frm_ASAT}}>{{supp.key_ASAT}}</label>
-                        <select class="form-control" @change="changeSelect"
+                        <select class="form-control"
                                 id={{supp.frm_ASAT}} 
                                 name={{supp.frm_ASAT}} 
-                                v-modele={{supp.frm_ASAT}} 
+                                v-model={{supp.frm_ASAT}} 
                                 data-original-title="{{supp.msg_ASAT}}" 
                                 data-original-name="key_ASAT"
                                required>
@@ -110,12 +110,11 @@
                       <div class="form-group">
                         <label for={{supp.frm_email}}>{{supp.key_email}}</label>
                         <input type="text" 
-                               class="form-control" 
+                               class="form-control isEmail" 
                                id={{supp.frm_email}} 
                                name={{supp.frm_email}} 
                                v-model={{supp.frm_email}} 
-                               maxlength="50" 
-                               pattern="^[a-zA-Z0-9_\-\.~]{2,}@[a-zA-Z0-9_\-\.~]{2,}\.[a-zA-Z]{2,4}$" 
+                               maxlength="50"
                                data-original-title="{{supp.msg_email}}" 
                                data-original-name="key_email"
                                >
@@ -205,7 +204,7 @@
                     <button type='button' class="btn btn-primary"  v-on:click='findById(entry["id"])' >
                       <span class="fa fa-pencil-alt"></span>
                     </button>
-                    <button v-if='entry["isActive"]==true' type='button' class="btn btn-default"  v-on:click='findById(entry["id"])' >
+                    <button v-if='entry["isActive"]==true' type='button' class="btn btn-default"  v-on:click='changeStatus(entry["id"])' >
                       <span class="fa fa-eye"></span>
                     </button>
                     <button v-else type='button' class="btn btn-default"  v-on:click='changeStatus(entry["id"])' >

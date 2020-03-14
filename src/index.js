@@ -3,6 +3,7 @@ const morgan =    require('morgan');
 const expresshbs =  require('express-handlebars');
 const path =    require('path');
 const session =    require('express-session');
+const multer = require('multer');
 const sql = require('mssql/msnodesqlv8');
 const passport =    require('passport');
 const coonexionMSSQLStore = require('./mssqlstore');
@@ -24,7 +25,7 @@ app.set('view engine','.hbs');
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-
+app.use(multer({dest:path.join(__dirname,'/public/upload/temp')}).single('image'));
 //Passport
 
 app.set('trust proxy', 1) ;
