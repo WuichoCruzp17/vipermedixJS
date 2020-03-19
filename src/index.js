@@ -47,6 +47,7 @@ app.use((req, res, next)=>{
     next();
 });
 app.use('/', require('./routes/login'));
+app.use('/vipermedix/', require('./routes/index'));
 app.use('/vipermedix/inventario', require('./routes/inventario'));
 app.use('/vipermedix/proveedor', require('./routes/supplier'));
 

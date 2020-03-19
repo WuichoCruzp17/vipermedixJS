@@ -51,7 +51,9 @@ const inventario ={
     msg_cadl:'Debe de seleccionar una fecha de caducidad',
     dtp_plac:'Seleccione una fecha',
     msg_lote:'El número de lote es requerido',
-    msg_canl:'Cantidad de lote es requerido'
+    msg_canl:'Cantidad de lote es requerido',
+    msg_conf_eli_lote:'¿Estas seguro de eliminiar este lote?',
+    msg_txt_eli_lote:'Una vez realizada la acción ya no se podra recuperar la información'
 
 };
 

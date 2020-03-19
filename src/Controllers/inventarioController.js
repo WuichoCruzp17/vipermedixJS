@@ -4,6 +4,7 @@ const productController = require('../Controllers/productController');
 const supplierController = require('../Controllers/supplierController');
 const pharmacyBranchController = require('../Controllers/pharmacyBranchController');
 const productLocationController = require('../Controllers/productLocationController');
+const productExpiryController = require('../Controllers/productExpiryController');
 const {inventario,global, login, service,regular_expresion,mesages, form_group} = require('../propertis');
 
 
@@ -24,4 +25,13 @@ inventarioController.getProduct = async(req,res)=>{
     const successful = (products !==null) ? true:false;
     res.status(200).json({status:200, products,successful});
 }
+
+inventarioController.saveProductExpiry  = async(req,res)=>{
+    const body = req.body;
+    const result = await productExpiryController.save(body);
+    const successful = (result !==null) ? true:false;
+    const status = (result !== null) ? true:false;
+    res.status(200).json({status,successful});
+};
+
 module.exports = inventarioController;

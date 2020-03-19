@@ -43,7 +43,7 @@ var util = {
         if (key.split('fecha').length > 1) {
           vuFrom[key] = moment(new Date(object[key])).format("YYYY-MM-DD");
         } else {
-          vuFrom[key] = object[key];
+          vuFrom.$data[key] = object[key];
         }
       }
     }

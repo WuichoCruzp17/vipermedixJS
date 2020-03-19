@@ -1,6 +1,8 @@
 <head>
     <link rel="stylesheet" href="../css/groupbox.css">
+    <link rel="stylesheet" href="../fontawesome-free-5.12.1-web/css/all.css">
     <script src="../js/util.js"></script>
+    <script src="../js/accounting.min.js"></script>
     <script src="../js/sweetalert2@9.js"></script>
    {{!--  <script src="../js/vue-2.js"></script> --}}
     <script src="../js/vuejs-datepicker-translations.js"></script>
@@ -69,8 +71,13 @@
                                                 {{inv.key_preC}}:
                                             </div>
                                             <div class="col-sm-5">
-                                                <input type="text" class="form-control isCurrency"
-                                                    name="{{inv.frm_preC}}" v-model={{inv.frm_preC}} />
+                                                <input 
+                                                    type="text" 
+                                                    class="form-control isCurrency"
+                                                    v-on:keyup="accountingEvent"
+                                                    data-original-title="{{inv.mg_preC}}" 
+                                                    data-original-name="key_preC"
+                                                    name="{{inv.frm_preC}}" v-model={{inv.frm_preC}} required/>
                                             </div>
                                         </div>
                                     </div>
@@ -80,8 +87,13 @@
                                                 {{inv.key_preP}}:
                                             </div>
                                             <div class="col-sm-5" style="margin-Top:10px">
-                                                <input type="text" name="{{inv.frm_preP}}" v-model={{inv.frm_preP}}
-                                                    class="form-control isCurrency">
+                                                <input type="text" 
+                                                       name="{{inv.frm_preP}}" 
+                                                       v-model={{inv.frm_preP}} 
+                                                       v-on:keyup="accountingEvent"
+                                                        data-original-title="{{inv.mg_preP}}" 
+                                                        data-original-name="key_preP"
+                                                       class="form-control isCurrency" required>
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +101,7 @@
                                         {{inv.key_ubi}}
                                     </div>
                                     <div class="col-sm-7" style="margin-Top:10px">
-                                        <select class="form-control" name="{{inv.frm_ubi}}" v-model={{inv.frm_ubi}}>
+                                        <select class="form-control" name="{{inv.frm_ubi}}" v-model={{inv.frm_ubi}} data-original-title="{{inv.msg_ubi}}"  data-original-name="key_ubi" required>
                                             <option value="0">--- Seleccione ---</option>
                                             {{#each productLocations}}
                                                 <option value="{{id}}">{{location}}</option>
@@ -100,7 +112,7 @@
                                         {{inv.key_pro}}
                                     </div>
                                     <div class="col-sm-7" style="margin-Top:10px">
-                                        <select class="form-control" name="{{inv.frm_pro}}" v-model={{inv.frm_pro}}>
+                                        <select class="form-control" name="{{inv.frm_pro}}" v-model={{inv.frm_pro}} data-original-title="{{inv.msg_prov}}"  data-original-name="key_pro" required>
                                             <option value="0">--- Seleccione ---</option>
                                             {{#each suppliers}}
                                                 <option value="{{id}}">{{supplierName}}</option>
@@ -120,14 +132,13 @@
                                             <div class="col-lg-3 col-lg-offset-1 col-sm-3 col-sm-offset-2 col-md-3 col-md-offset-1">
                                                 <div class="form-check form-check-inline">
                                                     <input type="checkbox" class="form-check-input"
-                                                        name="{{inv.frm_anti}}"></input>
+                                                        name="{{inv.frm_anti}}" v-model={{inv.frm_anti}}></input>
                                                     <label
                                                         class="form-check-label text-uppercase">{{inv.key_anti}}</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -156,7 +167,7 @@
                                                     </div>
                                                     <div class="col-sm-12">
                                                         <input type="text" class="form-control"
-                                                            name="{{inv.frm_cantAd}}" v-model={{inv.frm_cantAd}}></input>
+                                                            name="{{inv.frm_cantAd}}" v-model={{inv.frm_cantAd}} disabled required></input>
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,41 +192,36 @@
             <div class="col-sm-2 text-center text-uppercase">{{inv.key_cantM}}</div>
             <div class="col-sm-3 text-center text-uppercase">{{inv.key_cadM}}</div>
             <div class="col-sm-12">
-                <form name="{{inv.frm_CadN}}" id={{inv.frm_CadN}}>
+                <form name="{{inv.frm_CadN}}" id={{inv.frm_CadN}} autocomplete="off">
                     <div class="row">
-                        <div class="d-none"><input type="text" class="form-control" name="{{inv.frm_cadp}}" v-model={{inv.frm_cadp}}></input>
+                        <div class="d-none"><input type="text" class="form-control" name="{{inv.frm_cadp}}" v-model={{inv.frm_cadp}} autocomplete="off"></input>
                         </div>
-                        <div class="col-sm-3"><input type="text" class="form-control isNumber" name="{{inv.frm_lote}}"  v-model={{inv.frm_lote}} minLength="{{inv.mnl_lote}}" maxLength="{{inv.mxl_lote}}" pattern="[0-9]" data-original-title="{{inv.msg_lote}}" data-original-name="key_numLoM"  required></input></div>
-                        <div class="col-sm-2"><input type="text" class="form-control isNumber" name="{{inv.frm_cant}}" v-model="{{inv.frm_cant}}"  pattern="[0-9]" data-original-title="{{inv.msg_canl}}" data-original-name="key_cantM" required></input></div>
+                        <div class="col-sm-3"><input type="text" class="form-control isNumber" name="{{inv.frm_lote}}"  v-model={{inv.frm_lote}} minLength="{{inv.mnl_lote}}" maxLength="{{inv.mxl_lote}}" pattern="[0-9]" data-original-title="{{inv.msg_lote}}" data-original-name="key_numLoM"  autocomplete="off" required></input></div>
+                        <div class="col-sm-2"><input type="text" class="form-control isNumber" name="{{inv.frm_cant}}" v-model="{{inv.frm_cant}}"  pattern="[0-9]" data-original-title="{{inv.msg_canl}}" data-original-name="key_cantM" autocomplete="off" required></input></div>
                         <div class="col-sm-3 text-center">
-                            {{!-- <vuejs-datepicker v-model="{{inv.frm_cadl}}"  :bootstrap-styling="true" name="{{inv.frm_cadl}}" :inline="false" :language="es"></vuejs-datepicker>
-                             --}}
-                             <input type="date" class="form-control" v-model="{{inv.frm_cadl}}" name="{{inv.frm_cadl}}">
-                        </div>
+                            <vuejs-datepicker v-model="{{inv.frm_cadl}}"  :bootstrap-styling="true" name="{{inv.frm_cadl}}" :inline="false" :language="es" :disabled-dates="state.disabledDates"></vuejs-datepicker>
+                            
+{{!--                              <input type="date" class="form-control" v-model="{{inv.frm_cadl}}" name="{{inv.frm_cadl}}" data-original-title="{{inv.msg_cadl}}" data-original-name="key_cad" autocomplete="off" required>
+ --}}                        </div>
                         <div class="col-lg-4">
                             <p class="text-center">
                                 <button type="button" class="btn btn-primary" value="{{inv.frm_CadN}}" v-on:click="validarIventario">{{global.key_acep}}</button>
-                                <button type="button" class="btn btn-default">Limpiar</button>
+                                <button type="button" class="btn btn-default" v-on:click="limpiar">Limpiar</button>
                             </p>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="col-xl-12" id="demo">
-                <demo-grid :heroes="gridData" ></demo-grid>
-                <table class="table table-striped" style="margin-Top:10px">
-                    <thead>
-                        <tr>
-                            <th class="text-center">{{inv.key_numLoM}}</th>
-                            <th class="text-center">{{inv.key_cantM}}</th>
-                            <th class="text-center">{{inv.key_cadM}}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-lotes">
-                        
-                    </tbody>
-                </table>
+                 <div class="col-lg-4">
+                   <div class="group-material">
+                    <form id="search" style="margin-bottom:5px">
+                        Search <input name="query" v-model="searchQuery" class="form-control">
+                    </form>
+                  </div>
+                 </div>
+                <demo-grid :heroes="gridData" :columns="gridColumns" :filter-key="searchQuery">
+               </demo-grid>
             </div>
         </div>
     </fieldset>
@@ -227,28 +233,49 @@
             <button type="button" class="btn btn-success mtop-10">{{global.key_guad}}</button>
             <button type="button" class="btn btn-primary mtop-10">{{global.key_limp}}</button>
         </p>
-        
     </div>
 </div>
 </div>
 </div>
 <script type="text/x-template" id="grid-template">
-     <table class="table table-striped" style="margin-Top:10px">
-                    <thead>
-                        <tr>
-                            <th class="text-center">"Numero de lote"</th>
-                            <th class="text-center">"Cantidadad"</th>
-                            <th class="text-center">Caducidad</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="entry in heroes">
-                            <td>\{{entry["num_lote"]}}</td>
-                            <td>\{{entry["cant_lote"]}}</td>
-                            <td>\{{entry["cad_lote"]}}</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-</script>
+    <div class="container-fluid">
+          <table class="table">
+            <thead>
+              <tr>
+                <th v-for="key in columns"
+                  @click="sortBy(key)" 
+                  
+                  \:class="{ active: sortKey == key.column }">
+                  
+                  <template v-if="key.column !==''">
+                    \{{ key.name | capitalize }}
+                  <span class="arrow" :class="sortOrders[key.column] > 0 ? 'asc' : 'dsc'" >
+                  </span>
+                  </template>
+                 
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="entry in filteredHeroes">
+                <td class="d-none">\{{entry['cad_posicion']}}</td>
+                <td>\{{entry['num_lote']}}</td>
+                <td>
+                    \{{entry['cant_lote']}}
+                </td>
+                <td>
+                   \{{entry['cad_lote']}}
+                </td>
+                <td>
+                    <button type='button' class="btn btn-primary" v-on:click='selectLote(entry["cad_posicion"])'>
+                      <span class="fa fa-pencil-alt"></span>
+                    </button>
+                    <button type='button' class="btn btn-danger" v-on:click='confirmarRemoveLote(entry["cad_posicion"])'>
+                      <span class="fa fa-trash-alt"></span>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </script>
