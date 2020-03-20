@@ -149,9 +149,9 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="row">
-                                            <div class="col-sm-4 offset-sm-1">
+                                            <div class="col-sm-4 col-sm-offset-1">
                                                 <div class="row">
-                                                    <div class="col-sm-12 text-uppercase">
+                                                    <div class="col-sm-12 text-uppercase text-center">
                                                         {{inv.key_stckA}}
                                                     </div>
                                                     <div class="col-sm-12">
@@ -199,7 +199,7 @@
                         <div class="col-sm-3"><input type="text" class="form-control isNumber" name="{{inv.frm_lote}}"  v-model={{inv.frm_lote}} minLength="{{inv.mnl_lote}}" maxLength="{{inv.mxl_lote}}" pattern="[0-9]" data-original-title="{{inv.msg_lote}}" data-original-name="key_numLoM"  autocomplete="off" required></input></div>
                         <div class="col-sm-2"><input type="text" class="form-control isNumber" name="{{inv.frm_cant}}" v-model="{{inv.frm_cant}}"  pattern="[0-9]" data-original-title="{{inv.msg_canl}}" data-original-name="key_cantM" autocomplete="off" required></input></div>
                         <div class="col-sm-3 text-center">
-                            <vuejs-datepicker v-model="{{inv.frm_cadl}}"  :bootstrap-styling="true" name="{{inv.frm_cadl}}" :inline="false" :language="es" :disabled-dates="state.disabledDates"></vuejs-datepicker>
+                            <vuejs-datepicker v-model="{{inv.frm_cadl}}"  :bootstrap-styling="true" class="calender-header " name="{{inv.frm_cadl}}" :inline="false" :language="es" :disabled-dates="state.disabledDates"></vuejs-datepicker>
                             
 {{!--                              <input type="date" class="form-control" v-model="{{inv.frm_cadl}}" name="{{inv.frm_cadl}}" data-original-title="{{inv.msg_cadl}}" data-original-name="key_cad" autocomplete="off" required>
  --}}                        </div>

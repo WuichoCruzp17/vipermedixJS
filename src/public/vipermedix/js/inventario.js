@@ -6,17 +6,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
 var state = {
     disabledDates: {
       to: new Date(), // Disable all dates up to specific date
-      from: new Date(2022, 0, 26), // Disable all dates after specific date
+      from: new Date( (new Date().getFullYear()+10), 1,1), // Disable all dates after specific date
       /* days: [6, 0], // Disable Saturday's and Sunday's
       daysOfMonth: [29, 30, 31], // Disable 29th, 30th and 31st of each month */
       dates: [ // Disable an array of dates
-        new Date(new Date().getFullYear,11,31)
+        new Date(new Date().getFullYear(),11,31)
       ],
       ranges: [{ // Disable dates in given ranges (exclusive).
         from: new Date(),
         to: new Date(new Date().getFullYear,11,31)
-      }]
-    }
+      }],
+      customPredictor: function(date) {
+        // disables the date if it is a multiple of 5
+        const dTen = new Date( (new Date().getFullYear()+10), 1,1);
+        const d = new Date( (new Date().getFullYear()+1),1,1 );
+        if(date.getTime() < dTen.getTime() && date.getTime()>d.getTime()){
+          return false;
+        }
+        return true;
+      }
+    }   
   }
 const inventarioJS={};
 inventarioJS.lotes=[];
@@ -152,7 +161,7 @@ modsJS.ini = function(){
     data_add_inventario[inventario.frm_cadp]='';
     data_add_inventario[inventario.frm_lote]='';
     data_add_inventario[inventario.frm_cant]='';
-    data_add_inventario[inventario.frm_cadl]= new Date();
+    data_add_inventario[inventario.frm_cadl]=null;
     data_add_inventario.lotes =[];
     data_add_inventario['es']=vdp_translation_es.js;
     data_add_inventario.state = state;
