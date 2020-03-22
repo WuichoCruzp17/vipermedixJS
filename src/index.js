@@ -6,6 +6,7 @@ const session =    require('express-session');
 const multer = require('multer');
 const sql = require('mssql/msnodesqlv8');
 const passport =    require('passport');
+var bodyParser = require('body-parser');
 const coonexionMSSQLStore = require('./mssqlstore');
 //Initizations
 const app =    express();
@@ -23,7 +24,7 @@ app.engine('.hbs',expresshbs({
 
 app.set('view engine','.hbs');
 app.use(morgan('dev'));
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(multer({dest:path.join(__dirname,'/public/upload/temp')}).single('image'));
 //Passport

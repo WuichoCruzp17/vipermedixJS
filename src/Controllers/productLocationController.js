@@ -1,13 +1,12 @@
 const productLocation = require('../Models/ProductLocation');
 const productLocationController ={};
 
-productLocationController.findAll =async()=>{
-    const cols ={id:productLocation.getNameColumn('id'),location:productLocation.getNameColumn('location')}
-    const productLocations = await productLocation.findAll(cols);
+productLocationController.findByProperty =async(property, value,cols)=>{  
+     const productLocations = await productLocation.findByProperty(property,value,cols);
     if(Array.isArray(productLocations)){
         return productLocations;
     }else{
-        return [];
+        return null;
     }
 };
 

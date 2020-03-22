@@ -42,7 +42,9 @@ var util = {
       if (vuFrom.hasOwnProperty(key)) {
         if (key.split('fecha').length > 1) {
           vuFrom[key] = moment(new Date(object[key])).format("YYYY-MM-DD");
-        } else {
+        }else if($( "[name='"+key+"']" ).hasClass('isCurrency')){
+          vuFrom.$data[key] = accounting.formatMoney(object[key]);
+        }else {
           vuFrom.$data[key] = object[key];
         }
       }
@@ -106,7 +108,11 @@ var util = {
                               name: property[$elements[i].getAttribute('data-original-name')]
                           });
                           }
-                        }else{
+                        }
+                        if($elements[i].classList[1]=='isCurrency'){
+                          entity[$elements[i].name] = accounting.unformat(jQuery($elements[i]).val());
+                        }
+                        else{
                           entity[$elements[i].name] = jQuery($elements[i]).val();
                         } 
                     } 
@@ -192,6 +198,14 @@ var util = {
 
   soloNumeros:function(element){
     element.value = element.value.replace(/[^0-9]/g,'');
+  },
+
+  createOptions:function(value,text,data){
+    var options = new Array();
+    for(var i=0;i<data.length;i++){
+       options.push({text:data[i][text], value:data[i][value]});
+    }
+    return options;
   }
 
 

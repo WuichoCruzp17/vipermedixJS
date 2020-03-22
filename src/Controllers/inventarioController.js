@@ -5,33 +5,79 @@ const supplierController = require('../Controllers/supplierController');
 const pharmacyBranchController = require('../Controllers/pharmacyBranchController');
 const productLocationController = require('../Controllers/productLocationController');
 const productExpiryController = require('../Controllers/productExpiryController');
+const productInventroyController = require('../Controllers/productInventroyController');
 const {inventario,global, login, service,regular_expresion,mesages, form_group} = require('../propertis');
 
 
 inventarioController.index = async(req, res) =>{
-    console.log("Session --->",req.session);
     const suppliers =await supplierController.findAll();
     const pharmacyBranchs = await pharmacyBranchController.findAll();
-    const productLocations = await productLocationController.findAll();
-    //const obtProduct = await product.getProduct(0,1,'7502225096866');
-    //console.log(obtProduct);
-    res.render('vipermedix/inventario',{inv:inventario,global,suppliers,pharmacyBranchs,productLocations});
+    res.render('vipermedix/inventario',{inv:inventario,global,suppliers,pharmacyBranchs});
 
 }
 
 inventarioController.getProduct = async(req,res)=>{
     const body = req.body;
+    var productsLocations = null;
     const products = await productController.getProduct(body.p_tipo,body.p_product_id,body.p_sucu_id,body.p_barcode);
-    const successful = (products !==null) ? true:false;
-    res.status(200).json({status:200, products,successful});
+    const cols ={id:'Id',location:'Location'};
+    if(products !== null){
+        console.log(products);
+        productsLocations = await productLocationController.findByProperty(inventario.frm_sucu,products.data[0][inventario.frm_sucu], cols);
+    }
+     
+    const successful = (products !==null && productsLocations !== null) ? true:false;
+    res.status(200).json({status:200, products,productsLocations,successful});
 }
 
 inventarioController.saveProductExpiry  = async(req,res)=>{
     const body = req.body;
-    const result = await productExpiryController.save(body);
-    const successful = (result !==null) ? true:false;
-    const status = (result !== null) ? true:false;
-    res.status(200).json({status,successful});
+    console.log(body);
+    if(body!== null && body !== undefined){
+        if(body.hasOwnProperty('model') && body.hasOwnProperty('lotes')){
+            if(body.model.hasOwnProperty(inventario.frm_preC) && body.model.hasOwnProperty(inventario.frm_preP) && 
+               body.model.hasOwnProperty(inventario.frm_ubi) && body.model.hasOwnProperty(inventario.frm_pro) &&
+               body.model.hasOwnProperty(inventario.frm_stckA) && body.model.hasOwnProperty(inventario.frm_cantAd) &&
+               Array.isArray(body.lotes)
+               ){
+                    var result = null;
+                    var  c =0;
+                    if(body.lotes.length>0){
+                        for(var i = 0;i<body.lotes.length;i++){
+                           result = await productExpiryController.save(
+                                    {
+                                        discontinuedDate:new Date(body.lotes[i][inventario.frm_cadl]),
+                                        productId:body.model[inventario.frm_prodId],
+                                        pharmacyBranchId:body.model[inventario.frm_sucu],    
+                                        lotNumber:body.lotes[i][inventario.frm_lote]
+                                    });
+                            if(result === null){
+                                res.status(200).json({status:500,successful:false, error:'Error en el servidor'});
+                                break;
+                            }else{
+                                c++;
+                            }
+                        }
+
+                        if(c==body.lotes.length){
+                            body.model[inventario.frm_stckA] =parseInt(body.model[inventario.frm_stckA]) +c;
+                            const resultPIn = productInventroyController.update({productInventoryId:body.model[inventario.frm_prdIn], unitsInStock:body.model[inventario.frm_stckA]});
+                            res.status(200).json({status:200, successful:true});
+                        }else{
+                            res.status(200).json({status:500, successful:false, error:'Error en el servidor'});
+                        }
+
+                    }else{
+                        //Sin  lotes
+                        res.status(200).json({status:500, successful:false, error:'No se encontraron lotes'});
+                    }
+               }else{
+                   //Error en el formulario
+                   res.status(200).json({status:500, successful:false, error:'No se enontro información'});
+               }
+        }
+    }
 };
+
 
 module.exports = inventarioController;

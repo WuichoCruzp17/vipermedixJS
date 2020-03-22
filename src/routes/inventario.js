@@ -5,4 +5,5 @@ const inventarioController = require('../Controllers/inventarioController');
 
 router.get('/', inventarioController.index);
 router.post('/getProduct', inventarioController.getProduct);
+router.post('/saveProductExpiry', inventarioController.saveProductExpiry);
 module.exports = router;

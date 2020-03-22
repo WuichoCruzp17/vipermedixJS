@@ -105,16 +105,38 @@ inventarioJS.prepareToRemove  = async function(response){
     
 };
 
-inventarioJS.fullValidae = function(){
-
-
-
+inventarioJS.clearFull  = function(){
+    document.getElementById(inventario.frm_name).reset();
+    document.getElementById(inventario.frm_Nbus).reset();
 };
 
-inventarioJS.save = async function(){
+inventarioJS.fullValidae = function(){
 
+    const result = util.validateForm(inventario.frm_name,inventario);
+    const resultB = util.validateForm(inventario.frm_Nbus,inventario);
+    if(result.validate && resultB.validate){
+        if( modsJS.grid.gridData.length>0){
+            const data = {model:result.entity,lotes:modsJS.grid.gridData};
+            data.model[inventario.frm_sucu] = resultB.entity[inventario.frm_sucu];
+            data.model[inventario.frm_prodId] = result.entity[inventario.frm_prodId];
+            inventarioJS.save(data);
 
+        }else{
+            message.showMessage("Sin lotes registrados","Se requiere agregar lotes para completar el proceso","warning");
+        }
+    }
+};
 
+inventarioJS.save = async function(data){
+
+    const result = await utilXHTTP.post("inventario/saveProductExpiry",data);
+    if(result.successful){
+        //Limpiar full
+        inventarioJS.clearFull();
+        modsJS.grid.gridData =new Array();
+    }else{
+        message.showMessage('Error',result.error,'error');
+    }
 };
 
 let modsJS ={};
@@ -138,6 +160,8 @@ modsJS.ini = function(){
         this[event.target.name] = accounting.formatMoney(this[event.target.name]);
     }
     const data_inventario ={};
+    data_inventario[inventario.frm_prodId]='';
+    data_inventario[inventario.frm_prdIn]='';
     data_inventario[inventario.frm_susA]='';
     data_inventario[inventario.frm_desc]='';
     data_inventario[inventario.frm_preC]='';
@@ -148,7 +172,7 @@ modsJS.ini = function(){
     data_inventario[inventario.frm_anti]=false;
     data_inventario[inventario.frm_stckA]='';
     data_inventario[inventario.frm_cantAd]='';
-
+    data_inventario.options =[];
     modsJS[inventario.frm_name] = util.createVueFrom({
         el:"#"+inventario.frm_name,
         model:data_inventario,
@@ -177,6 +201,15 @@ modsJS.ini = function(){
             vuejsDatepicker
         }
     });
+
+    modsJS[inventario.frm_butN] = util.createVueFrom({
+        el:'#'+inventario.frm_butN,
+        model:{},
+        methods:{
+            fullValidae:inventarioJS.fullValidae
+        }
+    });
+
     modsJS.grid = utilGrid.createGrid({
         script:'#grid-template',
         element:'#demo',
@@ -218,6 +251,8 @@ modsJS.validete = function(event){
 modsJS.getProduct = async function(p_tipo,p_product_id,p_sucu_id,p_barcode){
    const result = await utilXHTTP.post('inventario/getProduct',{p_tipo,p_product_id,p_sucu_id,p_barcode});
    if(result.successful){
+    modsJS[inventario.frm_name].options = new Array();
+    modsJS[inventario.frm_name].options = util.createOptions('id','location', result.productsLocations);
       util.updateFrom(modsJS[inventario.frm_name],result.products.data[0]);
    }else{
        console.log(result);
