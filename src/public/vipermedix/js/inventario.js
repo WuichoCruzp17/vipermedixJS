@@ -108,10 +108,11 @@ inventarioJS.prepareToRemove  = async function(response){
 inventarioJS.clearFull  = function(){
     document.getElementById(inventario.frm_name).reset();
     document.getElementById(inventario.frm_Nbus).reset();
+    modsJS[inventario.frm_name][inventario.frm_cad] = true;
 };
 
 inventarioJS.fullValidae = function(){
-
+    modsJS[inventario.frm_butN].disable = true;
     const result = util.validateForm(inventario.frm_name,inventario);
     const resultB = util.validateForm(inventario.frm_Nbus,inventario);
     if(result.validate && resultB.validate){
@@ -119,13 +120,21 @@ inventarioJS.fullValidae = function(){
             const data = {model:result.entity,lotes:modsJS.grid.gridData};
             data.model[inventario.frm_sucu] = resultB.entity[inventario.frm_sucu];
             data.model[inventario.frm_prodId] = result.entity[inventario.frm_prodId];
+            data.model[inventario.frm_sucu] = resultB.entity[inventario.frm_sucu];
+            data.model[inventario.frm_codiB] = resultB.entity[inventario.frm_codiB];
+            const obj = modsJS.inventario.options.find(function(x){return  x.value = modsJS.inventario.$data.location});
+            data.model.locationString = obj.text;
+            data.model[inventario.frm_cad] = modsJS[inventario.frm_name][inventario.frm_cad];
+            data.model[inventario.frm_anti] = modsJS[inventario.frm_name][inventario.frm_anti];
             inventarioJS.save(data);
 
         }else{
             message.showMessage("Sin lotes registrados","Se requiere agregar lotes para completar el proceso","warning");
+            modsJS[inventario.frm_butN].disable = false;
         }
     }
 };
+
 
 inventarioJS.save = async function(data){
 
@@ -137,6 +146,7 @@ inventarioJS.save = async function(data){
     }else{
         message.showMessage('Error',result.error,'error');
     }
+    modsJS[inventario.frm_butN].disable = false;
 };
 
 let modsJS ={};
@@ -162,6 +172,7 @@ modsJS.ini = function(){
     const data_inventario ={};
     data_inventario[inventario.frm_prodId]='';
     data_inventario[inventario.frm_prdIn]='';
+    data_inventario[inventario.frm_lastPro]='';
     data_inventario[inventario.frm_susA]='';
     data_inventario[inventario.frm_desc]='';
     data_inventario[inventario.frm_preC]='';
@@ -204,7 +215,9 @@ modsJS.ini = function(){
 
     modsJS[inventario.frm_butN] = util.createVueFrom({
         el:'#'+inventario.frm_butN,
-        model:{},
+        model:{
+            disable:false
+        },
         methods:{
             fullValidae:inventarioJS.fullValidae
         }

@@ -42,8 +42,12 @@ inventarioController.saveProductExpiry  = async(req,res)=>{
                ){
                     var result = null;
                     var  c =0;
+                    const resul =await productController.updateProdctForBill(body.model);
+                    console.log("Respuesta-->",resul);
                     if(body.lotes.length>0){
                         for(var i = 0;i<body.lotes.length;i++){
+                            var fechaArray =  body.lotes[i][inventario.frm_cadl].split(" ");
+                            body.lotes[i][inventario.frm_cadl] = new Date(parseInt(fechaArray[2]),getFecha(fechaArray[1]),parseInt(fechaArray[0]));
                            result = await productExpiryController.save(
                                     {
                                         discontinuedDate:new Date(body.lotes[i][inventario.frm_cadl]),
@@ -61,7 +65,7 @@ inventarioController.saveProductExpiry  = async(req,res)=>{
 
                         if(c==body.lotes.length){
                             body.model[inventario.frm_stckA] =parseInt(body.model[inventario.frm_stckA]) +c;
-                            const resultPIn = productInventroyController.update({productInventoryId:body.model[inventario.frm_prdIn], unitsInStock:body.model[inventario.frm_stckA]});
+                            //const resultPIn = productInventroyController.update({productInventoryId:body.model[inventario.frm_prdIn], unitsInStock:body.model[inventario.frm_stckA]});
                             res.status(200).json({status:200, successful:true});
                         }else{
                             res.status(200).json({status:500, successful:false, error:'Error en el servidor'});
@@ -79,5 +83,15 @@ inventarioController.saveProductExpiry  = async(req,res)=>{
     }
 };
 
+function getFecha(mes){
+    const monthsAbbr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    var i =0;
+    for(i;i<monthsAbbr.length;i++){
+        if(monthsAbbr[i] == mes){
+            break;
+        }
+    }
+    return i;
+}
 
 module.exports = inventarioController;

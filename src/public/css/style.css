@@ -543,3 +543,7 @@ input.material-control:focus ~ .highlight {
     .form-container{ width: 370px; }
     .navbar-lateral{ display: inherit !important; }
 }
+
+.vdp-datepicker,.input-group{
+    width:100%;
+  }

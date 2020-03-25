@@ -35,6 +35,7 @@ const inventario ={
     frm_stckA:'unitsInStock',
     frm_cantAd:'cantidad_adquirida',
     frm_pro:'proveedor',
+    frm_lastPro:'lastSupplierRefill',
     frm_cadM:'caducidad',
     frm_anti:'isRecipe',
     frm_cad:'caducidad',
