@@ -49,7 +49,8 @@ genericDAO.execute = async(query,params)=>{
 };
 
 genericDAO.executeProcedure =async(sp, params)=>{
-/*     console.log("Parametros",params); */
+console.log("SP--->", sp);
+console.log("Params SP --->", params)
     return new Promise((resolve,reject)=>{
         try{
             sql.open(connectionString,(err,conn)=>{
@@ -59,11 +60,8 @@ genericDAO.executeProcedure =async(sp, params)=>{
                     resolve (null);
                 }else{
                     var pm = conn.procedureMgr();
-                    console.log("PM-->",pm);
                     try{
-                        console.log("CALL-->",sp, params)
                         pm.callproc(sp,params,function(error,result,output){ 
-                               console.log(" --- PM CALL ---");
                             if(error){
                                 console.log("Errror 2--->",error);
                                 console.log(result);    

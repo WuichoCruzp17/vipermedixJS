@@ -7,6 +7,9 @@ productExpiry.columns = {
     id:{
         column:'Id'
     },
+    lotNumber:{
+        column:'LotNumber'
+    },
     discontinuedDate:{
         column:'DiscontinuedDate'
     },

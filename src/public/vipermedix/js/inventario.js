@@ -58,7 +58,9 @@ inventarioJS.limpiarFormularioLotes = function(){
     document.getElementById(inventario.frm_CadN).reset();
     modsJS[inventario.frm_CadN][inventario.frm_cadp]='';
     modsJS[inventario.frm_CadN][inventario.frm_lote]='';
+    modsJS[inventario.frm_CadN][inventario.frm_lote]='';
     modsJS[inventario.frm_CadN][inventario.frm_cant]='';
+    modsJS[inventario.frm_CadN][inventario.frm_cantAd]='';
     modsJS[inventario.frm_CadN][inventario.frm_cadl]= new Date();
 }
 
